@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function CartOverview() {
   return (
     <div>
@@ -5,7 +7,7 @@ function CartOverview() {
         <span>23 pizzas</span>
         <span>$23.45</span>
       </p>
-      <a href="#">Open cart &rarr;</a>
+      <NavLink to="/pizza/cart">Open cart &rarr;</NavLink>
     </div>
   );
 }
