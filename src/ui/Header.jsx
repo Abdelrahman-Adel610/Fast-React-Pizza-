@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div>
+    <header>
       <NavLink to="/">Fast React Pizza Co.</NavLink>
       <p>Abdo</p>
-    </div>
+    </header>
   );
 }
