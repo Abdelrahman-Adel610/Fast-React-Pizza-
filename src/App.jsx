@@ -8,8 +8,9 @@ import Home from "./ui/Home";
 import AppLayout from "./ui/AppLayout";
 import Menu, { loader as menuLoader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
-import Order from "./features/order/Order";
+import Order, { loader as orderLoader } from "./features/order/Order";
 import CreateOrder from "./features/order/CreateOrder";
+import Error from "./ui/Error";
 const route = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,7 @@ const route = createBrowserRouter([
         path: "/pizza/menu",
         element: <Menu />,
         loader: menuLoader,
+        errorElement: <Error />,
       },
       {
         path: "/pizza/cart",
@@ -34,6 +36,8 @@ const route = createBrowserRouter([
       {
         path: "/pizza/order/:orderId",
         element: <Order />,
+        loader: orderLoader,
+        errorElement: <Error />,
       },
       {
         path: "/pizza/order/new",
