@@ -13,13 +13,19 @@ import CreateOrder, {
   action as createOrderAction,
 } from "./features/order/CreateOrder";
 import Error from "./ui/Error";
+import { Provider } from "react-redux";
+import store from "./store";
 const route = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to={"/pizza"} />,
   },
   {
-    element: <AppLayout />,
+    element: (
+      <Provider store={store}>
+        <AppLayout />
+      </Provider>
+    ),
     children: [
       {
         path: "/pizza",

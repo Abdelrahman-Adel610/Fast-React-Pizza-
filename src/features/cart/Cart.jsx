@@ -1,6 +1,7 @@
 import Blue_Link from "../../ui/Link";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
+import { useSelector } from "react-redux";
 
 const fakeCart = [
   {
@@ -28,12 +29,12 @@ const fakeCart = [
 
 function Cart() {
   const cart = fakeCart;
-
+  const { username } = useSelector((state) => state.user);
   return (
     <div className="max-w-xl sm:w-1/2">
       <Blue_Link to="/pizza/menu">&larr; Back to menu</Blue_Link>
 
-      <h2 className="mt-6 text-xl font-bold">Your cart, %NAME%</h2>
+      <h2 className="mt-6 text-xl font-bold">Your cart, {username}</h2>
       <ul className="divide my-6 divide-y divide-stone-300 border-b border-stone-300">
         {cart.map((item) => (
           <CartItem item={item} key={item.pizzaId} />

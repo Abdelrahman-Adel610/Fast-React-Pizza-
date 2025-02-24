@@ -1,13 +1,18 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
+import { setUsername } from "./userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function CreateUser() {
-  const [username, setUsername] = useState("");
-
+  const [username, setLocalUsername] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
+    dispatch(setUsername(username));
+    navigate("/pizza/menu");
   }
-
   return (
     <form onSubmit={handleSubmit} className="text-slate-800">
       <p className="mb-4 sm:mb-3">
@@ -19,7 +24,7 @@ function CreateUser() {
         placeholder="Your full name"
         value={username}
         className="w52 mb-8 md:w-72"
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => setLocalUsername(e.target.value)}
       />
 
       {username !== "" && (

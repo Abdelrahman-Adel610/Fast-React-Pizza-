@@ -12,6 +12,7 @@ export default function Button({
   disabled,
   to = null,
   type = "primary",
+  onClick = () => {},
 }) {
   if (to)
     return (
@@ -21,7 +22,7 @@ export default function Button({
     );
 
   return (
-    <button disabled={disabled} className={styles[type]}>
+    <button disabled={disabled} className={styles[type]} onClick={onClick}>
       {children}
     </button>
   );
