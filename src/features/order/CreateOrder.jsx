@@ -2,6 +2,7 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { formatDate } from "../../utilities/helpers";
 import Button from "../../ui/Button";
+import { useSelector } from "react-redux";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -35,6 +36,7 @@ const fakeCart = [
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
+  const { username } = useSelector((state) => state.user);
   const cart = fakeCart;
   const error = useActionData();
   const isSubmitting = useNavigation().state === "submitting";
@@ -46,7 +48,13 @@ function CreateOrder() {
         <input type="hidden" value={JSON.stringify(cart)} name="cart" />
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
           <label className="sm:basis-40">First Name</label>
-          <input type="text" name="customer" required className="grow" />
+          <input
+            type="text"
+            name="customer"
+            required
+            className="grow"
+            defaultValue={username}
+          />
         </div>
 
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
