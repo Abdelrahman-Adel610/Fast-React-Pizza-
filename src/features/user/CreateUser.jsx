@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 function CreateUser() {
   const [username, setLocalUsername] = useState("");
   const { username: user } = useSelector((state) => state.user);
-  console.log(user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -3,6 +3,11 @@ import { createOrder } from "../../services/apiRestaurant";
 import { formatDate } from "../../utilities/helpers";
 import Button from "../../ui/Button";
 import { useSelector } from "react-redux";
+import EmptyCart from "../cart/EmptyCart";
+import { useState } from "react";
+import { clearCart, getTotolPrice } from "../cart/cartSlice";
+import store from "../../store";
+import { setUsername } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -35,17 +40,22 @@ const fakeCart = [
 ];
 
 function CreateOrder() {
-  // const [withPriority, setWithPriority] = useState(false);
+  const [withPriority, setWithPriority] = useState(false);
+  const totalPrice = useSelector(getTotolPrice);
+  const priorityPrice = withPriority ? 0.2 * totalPrice : 0;
+
   const { username } = useSelector((state) => state.user);
-  const cart = fakeCart;
+  const { cart } = useSelector((state) => state.cart);
   const error = useActionData();
   const isSubmitting = useNavigation().state === "submitting";
+  if (!cart.length) return <EmptyCart />;
   return (
     <div className="w-5/6 max-w-2xl">
       <h2 className="mb-8 text-xl font-bold">Ready to order? Let's go!</h2>
 
       <Form method="POST" action="/pizza/order/new">
         <input type="hidden" value={JSON.stringify(cart)} name="cart" />
+        <input type="hidden" value={priorityPrice} name="priorityPrice" />
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
           <label className="sm:basis-40">First Name</label>
           <input
@@ -81,8 +91,8 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority}
+            onChange={(e) => setWithPriority(e.target.checked)}
             className="accent-yellow-400"
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
@@ -90,7 +100,6 @@ function CreateOrder() {
 
         <div>
           <Button disabled={isSubmitting}>
-            {" "}
             {isSubmitting ? "Placing order..." : "Order now"}
           </Button>
         </div>
@@ -105,11 +114,17 @@ export async function action({ request }) {
   const formattedData = {
     ...data,
     cart: JSON.parse(data.cart),
-    priority: data.priority === "on",
+    priority: data.priority === "true",
+    priorityPrice: data.priorityPrice,
   };
+
+  if (formattedData.customer !== "Guest")
+    store.dispatch(setUsername(formattedData.customer));
+
   if (!isValidPhone(formattedData.phone)) error.phone = "Invalid phone number";
   if (Object.keys(error).length) return error;
   const order = await createOrder(formattedData);
+  store.dispatch(clearCart());
   return redirect(`/pizza/order/${order.id}`);
 }
 export default CreateOrder;

@@ -1,19 +1,17 @@
-import { useDispatch } from "react-redux";
-import Button from "../../ui/Button";
-import { formatCurrency } from "../../utilities/helpers";
+import React from "react";
 import { decrementQuantity, incrementQuantity, removeItem } from "./cartSlice";
-import ItemsQuantity from "./ItemsQuantity";
+import { formatCurrency } from "../../utilities/helpers";
+import Button from "../../ui/Button";
+import { useDispatch } from "react-redux";
 
-function CartItem({ item }) {
-  const { pizzaId, name, quantity, totalPrice } = item;
+export default function ItemsQuantity({ pizzaId, quantity, totalPrice = 0 }) {
   const dispatch = useDispatch();
   return (
-    <li className="flex flex-wrap items-center justify-between gap-5 py-3">
-      <p>
-        {quantity}&times; {name}
-      </p>
-      {/* <div className="flex items-center justify-between gap-3.5">
-        <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
+    <div>
+      <div className="flex items-center justify-between gap-3.5">
+        <p className="text-sm font-bold">
+          {totalPrice > 0 && formatCurrency(totalPrice)}
+        </p>
         <div className="flex items-center gap-1.5">
           <Button
             type="secondary_small"
@@ -41,14 +39,7 @@ function CartItem({ item }) {
         >
           Delete
         </Button>
-      </div> */}
-      <ItemsQuantity
-        pizzaId={pizzaId}
-        totalPrice={totalPrice}
-        quantity={quantity}
-      />
-    </li>
+      </div>
+    </div>
   );
 }
-
-export default CartItem;
