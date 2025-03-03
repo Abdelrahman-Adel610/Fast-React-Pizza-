@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { formatCurrency } from "../../utilities/helpers";
 
 function OrderItem({ item, isLoadingIngredients, ingredients }) {
@@ -11,6 +12,7 @@ function OrderItem({ item, isLoadingIngredients, ingredients }) {
         </p>
         <p>{formatCurrency(totalPrice)}</p>
       </div>
+      <p>{isLoadingIngredients ? "loading..." : ingredients.join(", ")}</p>
     </li>
   );
 }
