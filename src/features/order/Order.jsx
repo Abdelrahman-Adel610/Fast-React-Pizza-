@@ -50,8 +50,8 @@ function Order() {
         </p>
       </div>
       <ul className="divide divide-y-8 divide-stone-200 border-y border-stone-200 p-5">
-        {cart.map((item) => (
-          <OrderItem item={item} key={item.id} />
+        {cart.map((item, i) => (
+          <OrderItem item={item} key={i} />
         ))}
       </ul>
       <div className="space-y-3 rounded-lg bg-stone-400/40 p-5">
